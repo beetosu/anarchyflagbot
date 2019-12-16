@@ -12,3 +12,6 @@ When it runs out of words/flag colors, which will be ~1 month from it's initial 
 
 ## Q: Hey! This color is the exact same as [actual political ideology]!
 I attempted to strike a balance between being a different enough color from any actual ideology or previously made flag, and having enough colors to actually have this bot active for longer than a couple days. As such, it may look like colors are repeating or using pre-established colors, but it *technically* isn't.
+
+## Q: The bot tweeted anarcho-[word], which is a real thing!
+I *think* I wrote down every obviously established idology ("communism", "capitalism", "mutualism", etc.) down in the prohibited words list, but it's entirely possible I missed one. Feel free to let me know if this happens, so I can correct it.
