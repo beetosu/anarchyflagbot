@@ -37,6 +37,7 @@ def make_flag(words, colors):
         word = random.choice(words)
         anarcho = "the flag for anarcho-" + word + "."
         print(anarcho + ": " + str(color))
+    print("all done!")
 
         #make a flag image
         flag = Image.new("RGB", (1875, 1250))
