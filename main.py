@@ -35,7 +35,7 @@ def make_flag(words, colors):
     while len(words) > 0 and len(colors) > 0 and limit < 3:
         color = colors[random.randint(0, len(colors)-1)]
         word = random.choice(words)
-        anarcho = "anarcho-" + word
+        anarcho = "the flag for anarcho-" + word + "."
         print(anarcho + ": " + str(color))
 
         #make a flag image
