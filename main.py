@@ -5,8 +5,6 @@ from wordfreq import word_frequency
 import tweepy
 import time
 
-#add the whole automated thing
-
 #basically makes a list of RGB values that are kinda different enough to not have jus identical flags
 def get_colors():
     #these colors are ones that are already absolutely anarchy flags
@@ -28,6 +26,7 @@ def get_colors():
     #now we got our json
     with open('colors.json', 'w') as f:
         json.dump(rgb, f)
+
 
 #the actual function called
 def make_flag(words, colors):
@@ -58,8 +57,8 @@ def make_flag(words, colors):
         words.remove(word)
         colors.remove(color)
         time.sleep(14400)
+    #and fin.
     print("all done!")
-
 
 
 #just so i can upload this code publically lmao
@@ -70,6 +69,7 @@ def get_keys(filename):
             keys.append(line.rstrip())
     return keys
 
+
 #take the random list of words i got online and assign it a popularity score
 def filter_raw():
     with open("words_raw.json", "r") as f:
@@ -79,6 +79,7 @@ def filter_raw():
         freq[i] = word_frequency(i, 'en')
     with open('words_filtered.json', 'w') as f:
         json.dump(freq, f)
+
 
 #get only the words people actual have kinda heard of
 #think i used something in the range of 5e-8? i forgot tbh
