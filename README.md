@@ -1,7 +1,7 @@
 # anarchyflagbot
 A Twitter bot that creates a bisected anarchist flag with a random color, pairs it a random word ending with "ism", and tweets it as a new school of leftist thought.
 
-It's currently live @anarchyflagbot
+It's currently offline, but the tweets are archived @anarchyflagbot
 
 # FAQ:
 ## Q: Why?
