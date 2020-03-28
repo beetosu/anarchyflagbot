@@ -1,9 +1,10 @@
 import random
-from PIL import Image, ImageDraw
+#from PIL import Image, ImageDraw
 import json
-from wordfreq import word_frequency
-import tweepy
+#from wordfreq import word_frequency
+#import tweepy
 import time
+import os
 
 #basically makes a list of RGB values that are kinda different enough to not have jus identical flags
 def get_colors():
@@ -29,35 +30,18 @@ def get_colors():
 
 
 #the actual function called
-def make_flag(words, colors):
-    limit = 0
-    while len(words) > 0 and len(colors) > 0 and limit < 3:
+def make_flags(words, colors):
+    pairs = []
+    while len(words) > 0 and len(colors) > 0:
         color = colors[random.randint(0, len(colors)-1)]
         word = random.choice(words)
-        anarcho = "the flag for anarcho-" + word + "."
-        print(anarcho + ": " + str(color))
-
-        #make a flag image
-        flag = Image.new("RGB", (1875, 1250))
-        draw = ImageDraw.Draw(flag)
-        rect = draw.rectangle([0, 0, 1875, 1250],fill=(color[0], color[1], color[2]))
-        tri = draw.polygon([0, 1250, 1875, 0, 1875, 1250], fill=(0, 0, 0))
-        flag.save("flag.png")
-
-        #set-up into the twitter bot
-        keys = get_keys("../anarchy_keys.txt")
-        auth = tweepy.OAuthHandler(keys[0], keys[1])
-        auth.set_access_token(keys[2], keys[3])
-        api = tweepy.API(auth)
-
-        #and then, at last, we tweet.
-        api.update_with_media("flag.png", status=anarcho)
-
+        pairs.append([word, color])
         #so the actual looping works, remove from the lists and wait for a hot min (4 hours to be exact)
         words.remove(word)
         colors.remove(color)
-        time.sleep(14400)
     #and fin.
+    with open('pairs.json', 'w') as f:
+        json.dump(pairs, f)
     print("all done!")
 
 
@@ -101,12 +85,30 @@ def get_popular(freq):
 def main():
     #get all the needed colors/words ready
     with open("words.json", "r") as f:
-        words = json.load(f)
+        content = json.load(f)
+    newFlag = content.pop()
+    anarcho = "the flag for anarcho-" + newFlag[0] + "."
+    print(anarcho + ": " + str(color))
 
-    with open("colors.json", "r") as f:
-        colors = json.load(f)
+    #make a flag image
+    flag = Image.new("RGB", (1875, 1250))
+    draw = ImageDraw.Draw(flag)
+    rect = draw.rectangle([0, 0, 1875, 1250],fill=(newFlag[1][0], newFlag[1][1], newFlag[1][2]))
+    tri = draw.polygon([0, 1250, 1875, 0, 1875, 1250], fill=(0, 0, 0))
+    flag.save("flag.png")
 
-    make_flag(words, colors)
+    #set-up into the twitter bot
+    keys = get_keys("../anarchy_keys.txt")
+    auth = tweepy.OAuthHandler(keys[0], keys[1])
+    auth.set_access_token(keys[2], keys[3])
+    api = tweepy.API(auth)
+
+    #and then, at last, we tweet.
+    api.update_with_media("flag.png", status=anarcho)
+
+    #afterwards, rewrite the pairs without the used color/word
+    with open("pairs.json", 'w') as f:
+        json.dump(content, f)
 
 if __name__ == "__main__":
     main()
