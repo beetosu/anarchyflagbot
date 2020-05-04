@@ -1,8 +1,8 @@
 import random
-#from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw
 import json
-#from wordfreq import word_frequency
-#import tweepy
+from wordfreq import word_frequency
+import tweepy
 import time
 import os
 
@@ -84,11 +84,14 @@ def get_popular(freq):
 #this is so i can just write main.py in the console (for now!).
 def main():
     #get all the needed colors/words ready
-    with open("words.json", "r") as f:
+    with open("anarchyflagbot/pairs.json", "r") as f:
         content = json.load(f)
+    if len(newFlag) == 0:
+        print("No pairs remain :(")
+        return
     newFlag = content.pop()
     anarcho = "the flag for anarcho-" + newFlag[0] + "."
-    print(anarcho + ": " + str(color))
+    print(newFlag)
 
     #make a flag image
     flag = Image.new("RGB", (1875, 1250))
@@ -98,7 +101,7 @@ def main():
     flag.save("flag.png")
 
     #set-up into the twitter bot
-    keys = get_keys("../anarchy_keys.txt")
+    keys = get_keys("anarchy_keys.txt")
     auth = tweepy.OAuthHandler(keys[0], keys[1])
     auth.set_access_token(keys[2], keys[3])
     api = tweepy.API(auth)
@@ -107,7 +110,7 @@ def main():
     api.update_with_media("flag.png", status=anarcho)
 
     #afterwards, rewrite the pairs without the used color/word
-    with open("pairs.json", 'w') as f:
+    with open("anarchyflagbot/pairs.json", 'w') as f:
         json.dump(content, f)
 
 if __name__ == "__main__":
